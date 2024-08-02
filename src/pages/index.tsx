@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { Post } from "@/types";
 import Link from "next/link";
-import styles from '@/styles/Index.module.css'
+import styles from '@/styles/Home.module.css'
 type Props = {
   posts: Post[];
 };
@@ -31,17 +31,23 @@ export default function Home( {posts}: Props ) {
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <div>
-      {posts.map((post: Post) => (
-        <div key={post.id} className={styles.postCard}>
-          <Link href={`posts/${post.id}`} className={styles.postCardBox}>
-           <h2>{post.title}</h2> 
-          </Link>
-          <p>{post.content}</p>
-          <button className={styles.editButton}>Edit</button>
-          <button className={styles.delete}>Delete</button>
-        </div>
-      ))}
+    <div className={styles.homeContainer}>
+      <h2>Rails & Next.js Blog</h2>
+      <Link href="/create-post" className={styles.createButton}>
+        Create new Post
+      </Link>
+      <div>
+        {posts.map((post: Post) => (
+          <div key={post.id} className={styles.postCard}>
+            <Link href={`posts/${post.id}`} className={styles.postCardBox}>
+             <h2>{post.title}</h2> 
+            </Link>
+            <p>{post.content}</p>
+            <button className={styles.editButton}>Edit</button>
+            <button className={styles.delete}>Delete</button>
+          </div>
+        ))}
+      </div>
     </div>
   </>
   );
