@@ -44,7 +44,7 @@ export default function Home( {posts}: Props ) {
             </Link>
             <p>{post.content}</p>
             <button className={styles.editButton}>Edit</button>
-            <button className={styles.delete}>Delete</button>
+            <button className={styles.deleteButton}>Delete</button>
           </div>
         ))}
       </div>
