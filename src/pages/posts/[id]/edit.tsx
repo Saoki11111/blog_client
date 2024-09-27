@@ -102,6 +102,10 @@ const EditPost = ({ post }: Props) => {
           {isSaving ? "Saving..." : "Save"}
         </button>
       </form>
+
+      <button onClick={() => router.push('/')} className={styles.backButton}>
+        トップページに戻る
+      </button>
     </div>
   );
 };
