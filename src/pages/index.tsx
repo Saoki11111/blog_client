@@ -22,6 +22,28 @@ export async function getStaticProps(){
 }
 
 export default function Home( {posts}: Props ) {
+
+  const handleDelete = async (id: number) => {
+    const confirmDelete = window.confirm("この投稿を削除しますか？");
+    if (confirmDelete) {
+      try {
+        const res = await fetch(`http://localhost:3001/api/v1/posts/${id}`, {
+          method: "DELETE",
+        });
+
+        if (res.ok) {
+          alert("投稿が削除されました。");
+          // ページをリフレッシュして投稿一覧を再取得する
+          window.location.reload();
+        } else {
+          console.error("削除に失敗しました。");
+        }
+      } catch (error) {
+        console.error("エラーが発生しました:", error);
+      }
+    }
+  };
+
   return (
   <>
     <Head>
@@ -46,7 +68,12 @@ export default function Home( {posts}: Props ) {
             <Link href={`posts/${post.id}/edit`}>
               <button className={styles.editButton}>Edit</button>
             </Link>
-            <button className={styles.deleteButton}>Delete</button>
+            <button
+              className={styles.deleteButton}
+              onClick={() => handleDelete(Number(post.id))}
+            >
+              Delete
+            </button>
           </div>
         ))}
       </div>
