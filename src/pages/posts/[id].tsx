@@ -48,6 +48,10 @@ const Post = ({ post }: Props) => {
       <div className={styles.title}>{post.title}</div>
       <div className={styles.date}>{post.created_at}</div>
       <p className={styles.content}>{post.content}</p>
+
+      <button onClick={() => router.push('/')} className={styles.backButton}>
+        トップページに戻る
+      </button>
     </div>
   )
 };
