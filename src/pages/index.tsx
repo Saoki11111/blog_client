@@ -8,7 +8,7 @@ type Props = {
 
 
 export async function getStaticProps(){
-  const res = await fetch("http://localhost:3001/api/v1/posts");
+  const res = await fetch("http://localhost:3001/api/v1/posts/");
   const posts = await res.json();
 
   console.log(posts);
@@ -43,7 +43,9 @@ export default function Home( {posts}: Props ) {
              <h2>{post.title}</h2> 
             </Link>
             <p>{post.content}</p>
-            <button className={styles.editButton}>Edit</button>
+            <Link href={`posts/${post.id}/edit`}>
+              <button className={styles.editButton}>Edit</button>
+            </Link>
             <button className={styles.deleteButton}>Delete</button>
           </div>
         ))}
