@@ -1,14 +1,35 @@
 import React, {ChangeEvent, FormEvent, useState} from "react";
 import styles from "../styles/Home.module.css"
+import {useRouter} from "next/router";
 
 const CreatePost = () => {
+  const router = useRouter();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    console.log(title, content);
+  
+    try {
+      const res = await fetch("http://localhost:3001/api/v1/posts", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ title, content }),
+      });
+  
+      if (res.ok) {
+        // 投稿が成功した場合の処理
+        console.log("Post created successfully!");
+        // 必要に応じてリダイレクトなどを行う
+        router.push("/");
+      } else {
+        console.error("Error creating post:", res.statusText);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+    }
   }
 
   return (
