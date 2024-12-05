@@ -1,14 +1,14 @@
 import Head from "next/head";
 import { Post } from "@/types";
 import Link from "next/link";
-import styles from '@/styles/Index.module.css'
+import styles from '@/styles/Home.module.css'
 type Props = {
   posts: Post[];
 };
 
 
 export async function getStaticProps(){
-  const res = await fetch("http://localhost:3001/api/v1/posts");
+  const res = await fetch("http://localhost:3001/api/v1/posts/");
   const posts = await res.json();
 
   console.log(posts);
@@ -22,6 +22,28 @@ export async function getStaticProps(){
 }
 
 export default function Home( {posts}: Props ) {
+
+  const handleDelete = async (id: number) => {
+    const confirmDelete = window.confirm("この投稿を削除しますか？");
+    if (confirmDelete) {
+      try {
+        const res = await fetch(`http://localhost:3001/api/v1/posts/${id}`, {
+          method: "DELETE",
+        });
+
+        if (res.ok) {
+          alert("投稿が削除されました。");
+          // ページをリフレッシュして投稿一覧を再取得する
+          window.location.reload();
+        } else {
+          console.error("削除に失敗しました。");
+        }
+      } catch (error) {
+        console.error("エラーが発生しました:", error);
+      }
+    }
+  };
+
   return (
   <>
     <Head>
@@ -31,17 +53,30 @@ export default function Home( {posts}: Props ) {
       <link rel="icon" href="/favicon.ico" />
     </Head>
 
-    <div>
-      {posts.map((post: Post) => (
-        <div key={post.id} className={styles.postCard}>
-          <Link href={`posts/${post.id}`} className={styles.postCardBox}>
-           <h2>{post.title}</h2> 
-          </Link>
-          <p>{post.content}</p>
-          <button className={styles.editButton}>Edit</button>
-          <button className={styles.delete}>Delete</button>
-        </div>
-      ))}
+    <div className={styles.homeContainer}>
+      <h2>Rails & Next.js Blog</h2>
+      <Link href="/create-post" className={styles.createButton}>
+        Create new Post
+      </Link>
+      <div>
+        {posts.map((post: Post) => (
+          <div key={post.id} className={styles.postCard}>
+            <Link href={`posts/${post.id}`} className={styles.postCardBox}>
+             <h2>{post.title}</h2> 
+            </Link>
+            <p>{post.content}</p>
+            <Link href={`posts/${post.id}/edit`}>
+              <button className={styles.editButton}>Edit</button>
+            </Link>
+            <button
+              className={styles.deleteButton}
+              onClick={() => handleDelete(Number(post.id))}
+            >
+              Delete
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   </>
   );

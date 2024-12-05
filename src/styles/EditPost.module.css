@@ -1,0 +1,25 @@
+.container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.formGroup {
+  margin-bottom: 1rem;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+.saveButton {
+  background-color: #0070f3;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
